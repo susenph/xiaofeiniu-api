@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 //把路由器挂载到/admin下
-app.use('/admin', adminRouter);
+//app.use('/admin', adminRouter);
 //把路由器挂载到/settings下
 app.use('/settings', settingsRouter);
 //把路由器挂载到/category下
-app.use('/category', categoryRouter);
+//app.use('/category', categoryRouter);
 //把路由器挂载到/dish下
-app.use('/dish', dishRouter);
+//app.use('/dish', dishRouter);
 //把路由器挂载到/table下
-app.use('table', tableRouter);
+app.use('/table', tableRouter);

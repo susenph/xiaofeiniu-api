@@ -8,11 +8,7 @@ router.get('/list', function(req, res) {
     
     pool.query(sql, function(err, result) {
         if(err) throw err;
-        if(result.affectedRows > 0){
-            res.send({ code: 200, data: result });
-        }else{
-            res.send({ code: 301, msg: 'SELECT TABLE ERROR' });
-        }
+        res.send({ code: 200, data: result });
     });
 });
 
@@ -46,7 +42,7 @@ router.get('/add', function(req, res) {
     });
 });
 
-router('/delete', function(req, res) {
+router.get('/delete', function(req, res) {
     var tid = req.query.tid;
     
     if(!tid){
