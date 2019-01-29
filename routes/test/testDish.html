@@ -9,8 +9,20 @@
 <body>
     <button id="bt1">获取所有的菜品</button>
     <button id="bt2">删除菜品</button>
-    <button id="bt3">添加新的菜品</button>
-    <button id="bt4">修改菜品</button>
+    <div>
+       <input type="text" id="inputDesc">
+        <input type="file" id="inputFile">
+        <button id="bt3" type="button">异步上传菜品图片</button> 
+    </div>
+    <button id="bt4">添加新的菜品</button>
+    <button id="bt5">修改菜品</button>
+    <hr>
+    <h3>图片文件上传</h3>
+    <form action="http://127.0.0.1:8090/admin/dish/image" method="POST" enctype="multipart/form-data">
+        <input type="file" name="dishImg">
+        <br>
+        <input type="submit" value="upload">
+    </form>
     <script src="axios.min.js"></script>
     <script>
         var url = "http://127.0.0.1:8090/admin/dish";
@@ -39,20 +51,40 @@
         }
 
         bt3.onclick = function() {
+            //异步上传文件
+            //手工创建一个multipart/form-data形式的请求主体
+            var data = new FormData();
+            //向请求主体中追加要提交的数据
+            data.append('description', inputDesc.value);
+            //向请求主体中追加用户选中的文件
+            //console.dir(inputFile);
+            data.append('dishImg', inputFile.files[0]);
+            //使用axios将请求主体异步提交给服务器
+            axios
+                .post(url + '/image', data)
+                .then((res) => {
+                    alert(JSON.stringify(res.data));
+                })
+                .catch((err) => {
+                    alert(err);
+                });
+        }
+
+        bt4.onclick = function() {
             //向服务器发送JSON类型的请求数据
-            var data = { title: '娃哈哈', imgUrl: 'wawaha.jpg', price: 2, detail: '可直接食用', categoryId: 5 };
+            var data = { title: '娃哈哈', imgUrl: '123456.jpg', price: 2, detail: '可直接食用', categoryId: 5 };
             axios
                 .post(url, data)
                 .then((result) => {
-                    console.log('添加新的类别成功', result.data);
+                    console.log('添加新的菜品成功', result.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         }
 
-        bt4.onclick = function() {
-            var data = { cid: 5, cname: '害虫类' };
+        bt5.onclick = function() {
+            var data = { did: 51, cname: '害虫类' };
             axios
                 .put(url, data)
                 .then((result) => {
